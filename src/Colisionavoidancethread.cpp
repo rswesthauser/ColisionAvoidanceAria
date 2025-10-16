@@ -30,15 +30,15 @@ void ColisionAvoidanceThread::unlockMutex() { myMutex.unlock(); }
 
 void ColisionAvoidanceThread::tratamentoSimples()
 {
-    int sumD = sonar[3] * LIMIARFRENTE + sonar[0] * LIMIARDIAGONAIS + sonar[2] * LIMIARDIAGONAIS + sonar[2];//2
-    int sumE = sonar[4] * LIMIARFRENTE + sonar[5] * LIMIARDIAGONAIS + sonar[6] * LIMIARDIAGONAIS + sonar[7];//1
+    int sumD = (sonar[3] * LIMIARFRENTE) + ((sonar[2] + sonar[1]) * LIMIARDIAGONAIS) + (sonar[2] * LIMIARLATERAIS);//2
+    int sumE = (sonar[4] * LIMIARFRENTE) + ((sonar[5] + sonar[6]) * LIMIARDIAGONAIS) + (sonar[7] * LIMIARLATERAIS);//1
     int dirMov = 1;
 
     if(robo->robot.isHeadingDone())
     {
       std::cout<< "A ultima rotacao foi concluida \n";
       if(sumD > sumE)
-      dirMov = 2;
+            dirMov = 2;
 
       if (sonar[3] <= LIMIARFRENTE/5 || sonar[4] <= LIMIARFRENTE/5)
       {
