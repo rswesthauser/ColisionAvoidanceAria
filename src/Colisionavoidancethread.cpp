@@ -39,7 +39,6 @@ void ColisionAvoidanceThread::tratamentoSimples()
       std::cout<< "A ultima rotacao foi concluida \n";
       if(sumD > sumE)
             dirMov = 2;
-
       if (sonar[3] <= LIMIARFRENTE/5 || sonar[4] <= LIMIARFRENTE/5)
       {
             robo->Move(-VELOCIDADEDESLOCAMENTO,-VELOCIDADEDESLOCAMENTO);
