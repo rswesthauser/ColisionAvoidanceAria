@@ -41,6 +41,7 @@
 #define OUT_AR_DIAGONAL    0.5     //15
 #define OUT_AR_FRONTAL     0.75    //45
 
+#define ALCANCE_MAX_SENSOR 5000
 
 // Camada de entrada
 #define NodosEntrada 8

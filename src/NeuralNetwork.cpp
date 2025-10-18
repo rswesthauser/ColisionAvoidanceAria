@@ -26,20 +26,29 @@ void NeuralNetwork::validarRedeNeural() {
     float ErrorValidacao = 0.0;
     printf("\n--- Validação ---\n");
 
-    for (int p = 0; p < PadroesValidacao; p++) {
-        for (i = 0; i < NodosOcultos; i++) {
+    for (int p = 0; p < PadroesValidacao; p++) 
+    {
+        for (i = 0; i < NodosOcultos; i++) 
+        {
             AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
-            for (j = 0; j < NodosEntrada; j++) {
+            for (j = 0; j < NodosEntrada; j++) 
+            {
                 AcumulaPeso += InputValidacaoNormalizado[p][j] * PesosCamadaOculta[j][i];
             }
-            Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+            //Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+            Oculto[i] = activationFunctionCamadasOcultas->activate(AcumulaPeso);
         }
-        for (i = 0; i < NodosSaida; i++) {
+
+        for (i = 0; i < NodosSaida; i++) 
+        {
             AcumulaPeso = PesosSaida[NodosOcultos][i];
-            for (j = 0; j < NodosOcultos; j++) {
+            for (j = 0; j < NodosOcultos; j++) 
+            {
                 AcumulaPeso += Oculto[j] * PesosSaida[j][i];
             }
-            Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+            //Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+            Saida[i] = activationFunctionCamadaSaida->activate(AcumulaPeso);
+
             ErrorValidacao += 0.5 * (ObjetivoValidacao[p][i] - Saida[i]) * (ObjetivoValidacao[p][i] - Saida[i]);
         }
         printf("Padrao %d | Objetivo: %.2f | Saida: %.2f\n", p, ObjetivoValidacao[p][0], Saida[0]);
@@ -54,7 +63,7 @@ void NeuralNetwork::normalizarEntradas()
     {
         for (int j = 0; j < NodosEntrada; j++) 
         {
-            InputNormalizado[p][j] = Input[p][j] / 5000.0;
+            InputNormalizado[p][j] = Input[p][j] / ALCANCE_MAX_SENSOR;
             printf("  Entrada[%d][%d]: original = %.2f  ->  normalizado = %.4f\n", 
                 p, j, Input[p][j], InputNormalizado[p][j]);
         }
@@ -64,7 +73,7 @@ void NeuralNetwork::normalizarEntradas()
     {
         for (int j = 0; j < NodosEntrada; j++) 
         {
-            InputValidacaoNormalizado[p][j] = InputValidacao[p][j] / 5000.0;
+            InputValidacaoNormalizado[p][j] = InputValidacao[p][j] / ALCANCE_MAX_SENSOR;
             printf("  Validação[%d][%d]: original = %.2f  ->  normalizado = %.4f\n", 
                 p, j, InputValidacao[p][j], InputValidacaoNormalizado[p][j]);
         }
@@ -124,7 +133,6 @@ int NeuralNetwork::treinoInicialRede()
 		for (p = 0; p < PadroesTreinamento; p++)
 		{
 			q = rand() % PadroesTreinamento;
-			;
 			r = IndiceRandom[p];
 			IndiceRandom[p] = IndiceRandom[q];
 			IndiceRandom[q] = r;
@@ -136,17 +144,20 @@ int NeuralNetwork::treinoInicialRede()
 			p = IndiceRandom[q];
 
 			// Processa a ativacoes da(s) camada(s) oculta(s) - Por hora ha apenas uma camada oculta
+            float AcumulaPesoLinear[NodosOcultos];
 			for (i = 0; i < NodosOcultos; i++)
 			{
-				AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
+				AcumulaPesoLinear[i] = PesosCamadaOculta[NodosEntrada][i]; //bias
 				for (j = 0; j < NodosEntrada; j++)
 				{
-					AcumulaPeso += InputNormalizado[p][j] * PesosCamadaOculta[j][i];
+					//AcumulaPeso += InputNormalizado[p][j] * PesosCamadaOculta[j][i];
+                    AcumulaPesoLinear[i] += InputNormalizado[p][j] * PesosCamadaOculta[j][i];
 				}
-				Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide - retorna valores no intervalo compreendido entre zero e um.
+				//Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide - retorna valores no intervalo compreendido entre zero e um.
+                Oculto[i] = activationFunctionCamadasOcultas->activate(AcumulaPesoLinear[i]);
 			}
 
-			// Processa a ativacoes dos neur�nios da camada de saida e calcula o erro
+			// Processa a ativacoes dos neuronios da camada de saida e calcula o erro
 			for (i = 0; i < NodosSaida; i++)
 			{
 				AcumulaPeso = PesosSaida[NodosOcultos][i];
@@ -154,20 +165,27 @@ int NeuralNetwork::treinoInicialRede()
 				{
 					AcumulaPeso += Oculto[j] * PesosSaida[j][i];
 				}
-				Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
-				SaidaDelta[i] = (Objetivo[p][i] - Saida[i]) * Saida[i] * (1.0 - Saida[i]);
+				//Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+                Saida[i] = activationFunctionCamadaSaida->activate(AcumulaPeso);  
+ 
+				//SaidaDelta[i] = (Objetivo[p][i] - Saida[i]) * Saida[i] * (1.0 - Saida[i]);
+                SaidaDelta[i] = (Objetivo[p][i] - Saida[i]) * activationFunctionCamadaSaida->derivative(AcumulaPeso);
+
 				Error += 0.5 * (Objetivo[p][i] - Saida[i]) * (Objetivo[p][i] - Saida[i]);
 			}
 
 			// Backpropagation - Propaga o erro para as camadas anteriores
 			for (i = 0; i < NodosOcultos; i++)
 			{
-				AcumulaPeso = 0.0;
+				//AcumulaPeso = 0.0;
+                float erroPropagado = 0.0f;
 				for (j = 0; j < NodosSaida; j++)
 				{
-					AcumulaPeso += PesosSaida[i][j] * SaidaDelta[j];
+					//AcumulaPeso += PesosSaida[i][j] * SaidaDelta[j];
+                    erroPropagado += PesosSaida[i][j] * SaidaDelta[j];
 				}
-				OcultoDelta[i] = AcumulaPeso * Oculto[i] * (1.0 - Oculto[i]); // Funcao Delta/Regra Delta
+				//OcultoDelta[i] = AcumulaPeso * Oculto[i] * (1.0 - Oculto[i]); // Funcao Delta/Regra Delta 
+                OcultoDelta[i] = erroPropagado * activationFunctionCamadasOcultas->derivative(AcumulaPesoLinear[i]);
 			}
 
 			// Atualiza os pesos, indo da entrada para a camada oculta
@@ -240,7 +258,8 @@ void NeuralNetwork::PrintarValores()
 			{
 				AcumulaPeso += InputNormalizado[p][j] * PesosCamadaOculta[j][i];
 			}
-			Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide
+			//Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide
+            Oculto[i] = activationFunctionCamadasOcultas->activate(AcumulaPeso);
 		}
 
 		// Computar as ativacoes da camada de saida e calcular os seus erros
@@ -336,14 +355,14 @@ void NeuralNetwork::testarValor()
 
 void NeuralNetwork::loop(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7) // Loop principal do Arduino
 {
-	ValoresSensores[0][0] = sensor0 / 5000.0;
-	ValoresSensores[0][1] = sensor1 / 5000.0;
-	ValoresSensores[0][2] = sensor2 / 5000.0;
-	ValoresSensores[0][3] = sensor3 / 5000.0;
-	ValoresSensores[0][4] = sensor4 / 5000.0;
-	ValoresSensores[0][5] = sensor5 / 5000.0;
-	ValoresSensores[0][6] = sensor6 / 5000.0;
-	ValoresSensores[0][7] = sensor7 / 5000.0;
+	ValoresSensores[0][0] = sensor0 / ALCANCE_MAX_SENSOR;
+	ValoresSensores[0][1] = sensor1 / ALCANCE_MAX_SENSOR;
+	ValoresSensores[0][2] = sensor2 / ALCANCE_MAX_SENSOR;
+	ValoresSensores[0][3] = sensor3 / ALCANCE_MAX_SENSOR;
+	ValoresSensores[0][4] = sensor4 / ALCANCE_MAX_SENSOR;
+	ValoresSensores[0][5] = sensor5 / ALCANCE_MAX_SENSOR;
+	ValoresSensores[0][6] = sensor6 / ALCANCE_MAX_SENSOR;
+	ValoresSensores[0][7] = sensor7 / ALCANCE_MAX_SENSOR;
 
 	printf(" sensor0: %d   \n", sensor0);
 	printf(" sensor1: %d   \n", sensor1);
