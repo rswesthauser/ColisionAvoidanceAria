@@ -20,23 +20,23 @@ int main(int argc, char **argv)
     //robo = new PioneerRobot(ConexaoRadio,"192.168.1.11",&sucesso);
     //cout << "Sucesso = " << sucesso << "\n";
 
-    //ColisionAvoidanceThread colisionAvoidanceThread(robo);
+    ColisionAvoidanceThread colisionAvoidanceThread(robo);
     WallFollowerThread wallFollowerThread(robo);
     SonarThread sonarReadingThread(robo);
     LaserThread laserReadingThread(robo);
 
-    //ArLog::log(ArLog::Normal, "Colision Avoidance thread ...");
-    //colisionAvoidanceThread.runAsync();
+    ArLog::log(ArLog::Normal, "Colision Avoidance thread ...");
+    colisionAvoidanceThread.runAsync();
 
     
     ArLog::log(ArLog::Normal, "Wall Following thread ...");
-    wallFollowerThread.runAsync();
+    //wallFollowerThread.runAsync();
 
     ArLog::log(ArLog::Normal, "Sonar Readings thread ...");
     sonarReadingThread.runAsync();
 
-    ArLog::log(ArLog::Normal, "Laser Readings thread ...");
-    laserReadingThread.runAsync();
+    //ArLog::log(ArLog::Normal, "Laser Readings thread ...");
+    //laserReadingThread.runAsync();
 
     robo->robot.waitForRunExit();
     
