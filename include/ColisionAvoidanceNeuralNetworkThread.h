@@ -2,6 +2,7 @@
 #define COLISIONAVOIDANCENEURALNETWORKTHREAD_H
 #include "Aria.h"
 #include "ClassRobo.h"
+#include "NeuralNetwork.h"
 
 class ColisionAvoidanceNeuralNetworkThread : public ArASyncTask{
 public:
@@ -9,6 +10,7 @@ public:
     ArCondition myCondition;
     ArMutex myMutex;
     int sonar[8];
+    NeuralNetwork neuralNetwork;
 
 public:
 ColisionAvoidanceNeuralNetworkThread(PioneerRobot *_robo);

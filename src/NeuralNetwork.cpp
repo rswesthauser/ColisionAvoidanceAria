@@ -6,7 +6,13 @@
 
 NeuralNetwork::NeuralNetwork()
 {
-   int a = 2;
+    srand(time(NULL));
+}
+
+void NeuralNetwork::treinarValidar()
+{
+    treinarRedeNeural();
+	validarRedeNeural();
 }
 
 void NeuralNetwork::validarRedeNeural() {
@@ -219,7 +225,7 @@ void NeuralNetwork::PrintarValores()
 
 		printf("\n  Saida: ");
 		for (i = 0; i < NodosSaida; i++)
-			printf(" %f ", Saida[i], 5);
+			printf(" %f ", Saida[i]);
 	}
 }
 

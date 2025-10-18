@@ -181,7 +181,7 @@ public:
     void testarValor();
     void loop(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7);
     void validarRedeNeural();
-
+    void treinarValidar();
 };
 
 #endif // NEURALNETWORK_H
