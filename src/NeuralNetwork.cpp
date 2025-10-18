@@ -150,11 +150,9 @@ int NeuralNetwork::treinoInicialRede()
 				AcumulaPesoLinear[i] = PesosCamadaOculta[NodosEntrada][i]; //bias
 				for (j = 0; j < NodosEntrada; j++)
 				{
-					//AcumulaPeso += InputNormalizado[p][j] * PesosCamadaOculta[j][i];
                     AcumulaPesoLinear[i] += InputNormalizado[p][j] * PesosCamadaOculta[j][i];
 				}
-				//Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide - retorna valores no intervalo compreendido entre zero e um.
-                Oculto[i] = activationFunctionCamadasOcultas->activate(AcumulaPesoLinear[i]);
+                Oculto[i] = activationFunctionCamadasOcultas->activate(AcumulaPesoLinear[i]); //Função de ativação
 			}
 
 			// Processa a ativacoes dos neuronios da camada de saida e calcula o erro
@@ -165,27 +163,20 @@ int NeuralNetwork::treinoInicialRede()
 				{
 					AcumulaPeso += Oculto[j] * PesosSaida[j][i];
 				}
-				//Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
-                Saida[i] = activationFunctionCamadaSaida->activate(AcumulaPeso);  
- 
-				//SaidaDelta[i] = (Objetivo[p][i] - Saida[i]) * Saida[i] * (1.0 - Saida[i]);
-                SaidaDelta[i] = (Objetivo[p][i] - Saida[i]) * activationFunctionCamadaSaida->derivative(AcumulaPeso);
-
+                Saida[i] = activationFunctionCamadaSaida->activate(AcumulaPeso);  //Função de ativação
+                SaidaDelta[i] = (Objetivo[p][i] - Saida[i]) * activationFunctionCamadaSaida->derivative(AcumulaPeso); //Calculo do erro
 				Error += 0.5 * (Objetivo[p][i] - Saida[i]) * (Objetivo[p][i] - Saida[i]);
 			}
 
 			// Backpropagation - Propaga o erro para as camadas anteriores
 			for (i = 0; i < NodosOcultos; i++)
 			{
-				//AcumulaPeso = 0.0;
                 float erroPropagado = 0.0f;
 				for (j = 0; j < NodosSaida; j++)
 				{
-					//AcumulaPeso += PesosSaida[i][j] * SaidaDelta[j];
                     erroPropagado += PesosSaida[i][j] * SaidaDelta[j];
 				}
-				//OcultoDelta[i] = AcumulaPeso * Oculto[i] * (1.0 - Oculto[i]); // Funcao Delta/Regra Delta 
-                OcultoDelta[i] = erroPropagado * activationFunctionCamadasOcultas->derivative(AcumulaPesoLinear[i]);
+                OcultoDelta[i] = erroPropagado * activationFunctionCamadasOcultas->derivative(AcumulaPesoLinear[i]);// Funcao Delta/Regra Delta 
 			}
 
 			// Atualiza os pesos, indo da entrada para a camada oculta
