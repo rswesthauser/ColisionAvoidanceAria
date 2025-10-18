@@ -6,6 +6,7 @@
 #include "Wallfollowerthread.h"
 #include "Sonarthread.h"
 #include "Laserthread.h"
+#include "ColisionAvoidanceNeuralNetworkThread.h"
 
 PioneerRobot *robo;
 
@@ -21,15 +22,18 @@ int main(int argc, char **argv)
     //cout << "Sucesso = " << sucesso << "\n";
 
     ColisionAvoidanceThread colisionAvoidanceThread(robo);
+    ColisionAvoidanceNeuralNetworkThread colisionAvoidanceNeuralNetworkThread(robo);
     WallFollowerThread wallFollowerThread(robo);
     SonarThread sonarReadingThread(robo);
     LaserThread laserReadingThread(robo);
 
-    ArLog::log(ArLog::Normal, "Colision Avoidance thread ...");
-    colisionAvoidanceThread.runAsync();
+    //ArLog::log(ArLog::Normal, "Colision Avoidance thread ...");
+    //colisionAvoidanceThread.runAsync();
 
+    ArLog::log(ArLog::Normal, "Colision Avoidance Neural Network thread ...");
+    colisionAvoidanceNeuralNetworkThread.runAsync();
     
-    ArLog::log(ArLog::Normal, "Wall Following thread ...");
+    //ArLog::log(ArLog::Normal, "Wall Following thread ...");
     //wallFollowerThread.runAsync();
 
     ArLog::log(ArLog::Normal, "Sonar Readings thread ...");
