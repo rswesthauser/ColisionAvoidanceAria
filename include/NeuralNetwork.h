@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include "Sigmoid.h"
+#include "ReLU.h"
 
 
 #define PadroesValidacao 4
@@ -74,12 +76,14 @@ public:
     float PesosCamadaOculta[NodosEntrada + 1][NodosOcultos];
     float OcultoDelta[NodosOcultos];
     float AlteracaoPesosOcultos[NodosEntrada + 1][NodosOcultos];
+    ActivationFunction* activationFunctionCamadasOcultas;
 
     // Camada de saída
     float Saida[NodosSaida];
     float SaidaDelta[NodosSaida];
     float PesosSaida[NodosOcultos + 1][NodosSaida];
     float AlterarPesosSaida[NodosOcultos + 1][NodosSaida];
+    ActivationFunction* activationFunctionCamadaSaida;
 
     float ValoresSensores[1][NodosEntrada] = {{0, 0, 0, 0, 0, 0, 0, 0}};
 
@@ -185,6 +189,7 @@ public:
     void validarRedeNeural();
     void treinarValidar();
     void normalizarEntradas();
+    void setupCamadas() ;
 };
 
 #endif // NEURALNETWORK_H

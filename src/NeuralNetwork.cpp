@@ -12,8 +12,14 @@ NeuralNetwork::NeuralNetwork()
 void NeuralNetwork::treinarValidar()
 {
     normalizarEntradas();
+    setupCamadas();
     treinarRedeNeural();
 	//validarRedeNeural();
+}
+
+void NeuralNetwork::setupCamadas() {
+    activationFunctionCamadasOcultas = new Sigmoid();
+    activationFunctionCamadaSaida = new Sigmoid();
 }
 
 void NeuralNetwork::validarRedeNeural() {
