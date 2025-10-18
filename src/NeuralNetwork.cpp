@@ -11,8 +11,9 @@ NeuralNetwork::NeuralNetwork()
 
 void NeuralNetwork::treinarValidar()
 {
+    normalizarEntradas();
     treinarRedeNeural();
-	validarRedeNeural();
+	//validarRedeNeural();
 }
 
 void NeuralNetwork::validarRedeNeural() {
@@ -23,7 +24,7 @@ void NeuralNetwork::validarRedeNeural() {
         for (i = 0; i < NodosOcultos; i++) {
             AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
             for (j = 0; j < NodosEntrada; j++) {
-                AcumulaPeso += InputValidacao[p][j] * PesosCamadaOculta[j][i];
+                AcumulaPeso += InputValidacaoNormalizado[p][j] * PesosCamadaOculta[j][i];
             }
             Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
         }
@@ -41,11 +42,35 @@ void NeuralNetwork::validarRedeNeural() {
     printf("Erro de validacao: %f\n", ErrorValidacao);
 }
 
+void NeuralNetwork::normalizarEntradas()
+{
+    for (int p = 0; p < PadroesTreinamento; p++) 
+    {
+        for (int j = 0; j < NodosEntrada; j++) 
+        {
+            InputNormalizado[p][j] = Input[p][j] / 5000.0;
+            printf("  Entrada[%d][%d]: original = %.2f  ->  normalizado = %.4f\n", 
+                p, j, Input[p][j], InputNormalizado[p][j]);
+        }
+    }
+
+    for (int p = 0; p < PadroesValidacao; p++) 
+    {
+        for (int j = 0; j < NodosEntrada; j++) 
+        {
+            InputValidacaoNormalizado[p][j] = InputValidacao[p][j] / 5000.0;
+            printf("  Validação[%d][%d]: original = %.2f  ->  normalizado = %.4f\n", 
+                p, j, InputValidacao[p][j], InputValidacaoNormalizado[p][j]);
+        }
+    }
+}
+
 void NeuralNetwork::treinarRedeNeural()
 {
 	int numeroTreinamentosExecutados = 0;
 	int p = 0;
 
+    printf("\nTreinar Rede Neural: \n\n");
 	for (p = 0; p < PadroesTreinamento; p++)
 		IndiceRandom[p] = p;
 
@@ -110,7 +135,7 @@ int NeuralNetwork::treinoInicialRede()
 				AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
 				for (j = 0; j < NodosEntrada; j++)
 				{
-					AcumulaPeso += Input[p][j] * PesosCamadaOculta[j][i];
+					AcumulaPeso += InputNormalizado[p][j] * PesosCamadaOculta[j][i];
 				}
 				Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide - retorna valores no intervalo compreendido entre zero e um.
 			}
@@ -146,7 +171,7 @@ int NeuralNetwork::treinoInicialRede()
 				PesosCamadaOculta[NodosEntrada][i] += AlteracaoPesosOcultos[NodosEntrada][i];
 				for (j = 0; j < NodosEntrada; j++)
 				{
-					AlteracaoPesosOcultos[j][i] = TaxaAprendizado * Input[p][j] * OcultoDelta[i] + Momentum * AlteracaoPesosOcultos[j][i];
+					AlteracaoPesosOcultos[j][i] = TaxaAprendizado * InputNormalizado[p][j] * OcultoDelta[i] + Momentum * AlteracaoPesosOcultos[j][i];
 					PesosCamadaOculta[j][i] += AlteracaoPesosOcultos[j][i];
 				}
 			}
@@ -195,7 +220,7 @@ void NeuralNetwork::PrintarValores()
 		printf("  Padrao de treinamento: %d \n", p);
 		printf("  Entrada: ");
 		for (i = 0; i < NodosEntrada; i++)
-			printf(" %f  ", Input[p][i]);
+			printf(" %f  ", InputNormalizado[p][i]);
 
 		printf("\n  Objetivo: ");
 		for (i = 0; i < NodosSaida; i++)
@@ -207,7 +232,7 @@ void NeuralNetwork::PrintarValores()
 			AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
 			for (j = 0; j < NodosEntrada; j++)
 			{
-				AcumulaPeso += Input[p][j] * PesosCamadaOculta[j][i];
+				AcumulaPeso += InputNormalizado[p][j] * PesosCamadaOculta[j][i];
 			}
 			Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide
 		}
@@ -305,14 +330,14 @@ void NeuralNetwork::testarValor()
 
 void NeuralNetwork::loop(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7) // Loop principal do Arduino
 {
-	ValoresSensores[0][0] = sensor0;
-	ValoresSensores[0][1] = sensor1;
-	ValoresSensores[0][2] = sensor2;
-	ValoresSensores[0][3] = sensor3;
-	ValoresSensores[0][4] = sensor4;
-	ValoresSensores[0][5] = sensor5;
-	ValoresSensores[0][6] = sensor6;
-	ValoresSensores[0][7] = sensor7;
+	ValoresSensores[0][0] = sensor0 / 5000.0;
+	ValoresSensores[0][1] = sensor1 / 5000.0;
+	ValoresSensores[0][2] = sensor2 / 5000.0;
+	ValoresSensores[0][3] = sensor3 / 5000.0;
+	ValoresSensores[0][4] = sensor4 / 5000.0;
+	ValoresSensores[0][5] = sensor5 / 5000.0;
+	ValoresSensores[0][6] = sensor6 / 5000.0;
+	ValoresSensores[0][7] = sensor7 / 5000.0;
 
 	printf(" sensor0: %d   \n", sensor0);
 	printf(" sensor1: %d   \n", sensor1);
@@ -322,6 +347,10 @@ void NeuralNetwork::loop(int sensor0, int sensor1, int sensor2, int sensor3, int
 	printf(" sensor5: %d   \n", sensor5);
 	printf(" sensor6: %d   \n", sensor6);
 	printf(" sensor7: %d   \n", sensor7);
+
+    printf("Valores normalizados dos sensores:\n");
+    for (int i = 0; i < 8; i++)
+        printf(" Sensor%d: %.4f\n", i, ValoresSensores[0][i]);
 
 	testarValor();
 }

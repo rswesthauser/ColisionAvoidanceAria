@@ -119,6 +119,7 @@ public:
         {800,    900,     870,     180,       175,       0,       0,       0},
         {0,      0,       0,       120,       125,     890,     850,     800}
     };
+    float InputNormalizado[PadroesTreinamento][NodosEntrada];
 
     const float Objetivo[PadroesTreinamento][NodosSaida] = {
     //   DR,  AR,  DM
@@ -162,6 +163,7 @@ public:
         {0,      0,       0,       600,     8000,    0,       0,       0,}
     
     };
+    float InputValidacaoNormalizado[PadroesValidacao][NodosEntrada];
     
     const float ObjetivoValidacao[PadroesValidacao][NodosSaida] = {
         {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE}, 
@@ -182,6 +184,7 @@ public:
     void loop(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7);
     void validarRedeNeural();
     void treinarValidar();
+    void normalizarEntradas();
 };
 
 #endif // NEURALNETWORK_H
