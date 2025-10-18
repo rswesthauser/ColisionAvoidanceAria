@@ -6,7 +6,7 @@
 #include <math.h>
 #include "Sigmoid.h"
 #include "ReLU.h"
-
+#include "LeakyReLU.h"
 
 #define PadroesValidacao 4
 #define PadroesTreinamento 24 

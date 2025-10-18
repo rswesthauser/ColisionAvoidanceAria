@@ -31,22 +31,24 @@ void NeuralNetwork::validarRedeNeural() {
         for (i = 0; i < NodosOcultos; i++) 
         {
             AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
+
             for (j = 0; j < NodosEntrada; j++) 
             {
                 AcumulaPeso += InputValidacaoNormalizado[p][j] * PesosCamadaOculta[j][i];
             }
-            //Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+
             Oculto[i] = activationFunctionCamadasOcultas->activate(AcumulaPeso);
         }
 
         for (i = 0; i < NodosSaida; i++) 
         {
             AcumulaPeso = PesosSaida[NodosOcultos][i];
+            
             for (j = 0; j < NodosOcultos; j++) 
             {
                 AcumulaPeso += Oculto[j] * PesosSaida[j][i];
             }
-            //Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+
             Saida[i] = activationFunctionCamadaSaida->activate(AcumulaPeso);
 
             ErrorValidacao += 0.5 * (ObjetivoValidacao[p][i] - Saida[i]) * (ObjetivoValidacao[p][i] - Saida[i]);
