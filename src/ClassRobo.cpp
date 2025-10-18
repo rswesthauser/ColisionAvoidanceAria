@@ -8,7 +8,8 @@
 
 #define REAL 0
   int PioneerRobot::isConnected()
-  { return(robot.isConnected());
+  { 
+    return(robot.isConnected());
   }
 
 PioneerRobot::PioneerRobot(int tipoConexao, const char* info, int *sucesso) {
@@ -150,7 +151,7 @@ PioneerRobot::PioneerRobot(int tipoConexao, const char* info, int *sucesso) {
     if(sick.isConnected())
          printf ("sim");//,readings->size());
     else printf ("nao");//,readings->size());
-    printf ("%Readings size %f 2 \n",readings->size());
+    printf ("%Readings size %zu 2 \n",readings->size());
     for (it = readings->begin(); it!=readings->end(); it++){
       printf(" %f %f\n" , (*it).getX(), (*it).getY());//,(*it).get );
     }
