@@ -13,7 +13,7 @@ void* ColisionAvoidanceNeuralNetworkThread::runThread(void*)
     {
         myMutex.lock();
         robo->getAllSonar(sonar);
-        tratamentoSimples();
+        tratamentoRna();
         //ArUtil::sleep(1000);
         myMutex.unlock();
     }
@@ -28,7 +28,7 @@ void ColisionAvoidanceNeuralNetworkThread::lockMutex() { myMutex.lock(); }
 
 void ColisionAvoidanceNeuralNetworkThread::unlockMutex() { myMutex.unlock(); }
 
-void ColisionAvoidanceNeuralNetworkThread::tratamentoSimples()
+void ColisionAvoidanceNeuralNetworkThread::tratamentoRna()
 {
     int sumD = (sonar[3] * LIMIARFRENTE) + ((sonar[2] + sonar[1]) * LIMIARDIAGONAIS) + (sonar[0] * LIMIARLATERAIS);//2
     int sumE = (sonar[4] * LIMIARFRENTE) + ((sonar[5] + sonar[6]) * LIMIARDIAGONAIS) + (sonar[7] * LIMIARLATERAIS);//1

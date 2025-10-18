@@ -1,0 +1,321 @@
+#include "NeuralNetwork.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+NeuralNetwork::NeuralNetwork()
+{
+   int a = 2;
+}
+
+void NeuralNetwork::validarRedeNeural() {
+    float ErrorValidacao = 0.0;
+    printf("\n--- Validação ---\n");
+
+    for (int p = 0; p < PadroesValidacao; p++) {
+        for (i = 0; i < NodosOcultos; i++) {
+            AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
+            for (j = 0; j < NodosEntrada; j++) {
+                AcumulaPeso += InputValidacao[p][j] * PesosCamadaOculta[j][i];
+            }
+            Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+        }
+        for (i = 0; i < NodosSaida; i++) {
+            AcumulaPeso = PesosSaida[NodosOcultos][i];
+            for (j = 0; j < NodosOcultos; j++) {
+                AcumulaPeso += Oculto[j] * PesosSaida[j][i];
+            }
+            Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+            ErrorValidacao += 0.5 * (ObjetivoValidacao[p][i] - Saida[i]) * (ObjetivoValidacao[p][i] - Saida[i]);
+        }
+        printf("Padrao %d | Objetivo: %.2f | Saida: %.2f\n", p, ObjetivoValidacao[p][0], Saida[0]);
+    }
+
+    printf("Erro de validacao: %f\n", ErrorValidacao);
+}
+
+void NeuralNetwork::treinarRedeNeural()
+{
+	int numeroTreinamentosExecutados = 0;
+	int p = 0;
+
+	for (p = 0; p < PadroesTreinamento; p++)
+		IndiceRandom[p] = p;
+
+	numeroTreinamentosExecutados = treinoInicialRede(); // Efetua o treinamento
+	if (numeroTreinamentosExecutados > 0)					 // Se "numeroTreinamentosExecutados" for maior do que zero, indica que a rede executou "numeroTreinamentosExecutados" treinamentos, para aprender o padrão.
+		printf("\n\n\nA rede foi treinada com sucesso, apos %d trinamentos", numeroTreinamentosExecutados);
+}
+
+void NeuralNetwork::inicializacaoPesos()
+{
+	// Inicializa os valores dos pesos das camadas ocultas e da camada de entrada
+	for (i = 0; i < NodosOcultos; i++)
+	{
+		for (j = 0; j <= NodosEntrada; j++)
+		{
+			AlteracaoPesosOcultos[j][i] = 0.0;
+			Rando = (rand() % 100) / 100;
+			PesosCamadaOculta[j][i] = 2.0 * (Rando - 0.5) * MaximoPesoInicial;
+		}
+	}
+
+	// Inicializa os pesos da camada de saida
+	for (i = 0; i < NodosSaida; i++)
+	{
+		for (j = 0; j <= NodosOcultos; j++)
+		{
+			AlterarPesosSaida[j][i] = 0.0;
+			Rando = (rand() % 100) / 100;
+			PesosSaida[j][i] = 2.0 * (Rando - 0.5) * MaximoPesoInicial;
+		}
+	}
+	printf("Initial/Untrained Saidas: \n\n");
+	PrintarValores();
+}
+
+int NeuralNetwork::treinoInicialRede()
+{
+	IntervaloTreinamentosPrintTela = NumeroCiclos;
+	inicializacaoPesos();
+
+	// Inicio do treinamento
+	for (CiclosDeTreinamento = 1; CiclosDeTreinamento < 2147483647; CiclosDeTreinamento++)
+	{
+		// Randomizar a ordem dos treinamentos, evitando que caia nas regioes de minimos comuns
+		for (p = 0; p < PadroesTreinamento; p++)
+		{
+			q = rand() % PadroesTreinamento;
+			;
+			r = IndiceRandom[p];
+			IndiceRandom[p] = IndiceRandom[q];
+			IndiceRandom[q] = r;
+		}
+		Error = 0.0;
+		// Navega entre todos os padroes de treinamento
+		for (q = 0; q < PadroesTreinamento; q++)
+		{
+			p = IndiceRandom[q];
+
+			// Processa a ativacoes da(s) camada(s) oculta(s) - Por hora ha apenas uma camada oculta
+			for (i = 0; i < NodosOcultos; i++)
+			{
+				AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
+				for (j = 0; j < NodosEntrada; j++)
+				{
+					AcumulaPeso += Input[p][j] * PesosCamadaOculta[j][i];
+				}
+				Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide - retorna valores no intervalo compreendido entre zero e um.
+			}
+
+			// Processa a ativacoes dos neur�nios da camada de saida e calcula o erro
+			for (i = 0; i < NodosSaida; i++)
+			{
+				AcumulaPeso = PesosSaida[NodosOcultos][i];
+				for (j = 0; j < NodosOcultos; j++)
+				{
+					AcumulaPeso += Oculto[j] * PesosSaida[j][i];
+				}
+				Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso));
+				SaidaDelta[i] = (Objetivo[p][i] - Saida[i]) * Saida[i] * (1.0 - Saida[i]);
+				Error += 0.5 * (Objetivo[p][i] - Saida[i]) * (Objetivo[p][i] - Saida[i]);
+			}
+
+			// Backpropagation - Propaga o erro para as camadas anteriores
+			for (i = 0; i < NodosOcultos; i++)
+			{
+				AcumulaPeso = 0.0;
+				for (j = 0; j < NodosSaida; j++)
+				{
+					AcumulaPeso += PesosSaida[i][j] * SaidaDelta[j];
+				}
+				OcultoDelta[i] = AcumulaPeso * Oculto[i] * (1.0 - Oculto[i]); // Funcao Delta/Regra Delta
+			}
+
+			// Atualiza os pesos, indo da entrada para a camada oculta
+			for (i = 0; i < NodosOcultos; i++)
+			{
+				AlteracaoPesosOcultos[NodosEntrada][i] = TaxaAprendizado * OcultoDelta[i] + Momentum * AlteracaoPesosOcultos[NodosEntrada][i];
+				PesosCamadaOculta[NodosEntrada][i] += AlteracaoPesosOcultos[NodosEntrada][i];
+				for (j = 0; j < NodosEntrada; j++)
+				{
+					AlteracaoPesosOcultos[j][i] = TaxaAprendizado * Input[p][j] * OcultoDelta[i] + Momentum * AlteracaoPesosOcultos[j][i];
+					PesosCamadaOculta[j][i] += AlteracaoPesosOcultos[j][i];
+				}
+			}
+
+			// Atualiza os pesos, indo da camada oculta para a saida
+			for (i = 0; i < NodosSaida; i++)
+			{
+				AlterarPesosSaida[NodosOcultos][i] = TaxaAprendizado * SaidaDelta[i] + Momentum * AlterarPesosSaida[NodosOcultos][i];
+				PesosSaida[NodosOcultos][i] += AlterarPesosSaida[NodosOcultos][i];
+				for (j = 0; j < NodosOcultos; j++)
+				{
+					AlterarPesosSaida[j][i] = TaxaAprendizado * Oculto[j] * SaidaDelta[i] + Momentum * AlterarPesosSaida[j][i];
+					PesosSaida[j][i] += AlterarPesosSaida[j][i];
+				}
+			}
+		}
+
+		// Exibir na tela o estatus do treinamento
+		IntervaloTreinamentosPrintTela = IntervaloTreinamentosPrintTela - 1;
+		if (IntervaloTreinamentosPrintTela == 0)
+		{
+			printf("\nCiclosDeTreinamento: %ld  Error: %f \n\n", CiclosDeTreinamento, Error);
+			PrintarValores();
+
+			if (CiclosDeTreinamento == 1)
+				IntervaloTreinamentosPrintTela = NumeroCiclos - 1;
+			else
+				IntervaloTreinamentosPrintTela = NumeroCiclos;
+		}
+
+		// Encerra o treinamento caso o erro seja menor do que o erro considerado aceitavel (configurado)
+		if (Error < Sucesso)
+			return CiclosDeTreinamento;
+	}
+
+	printf("\nCiclosDeTreinamento: %ld  Error: %f \n\n", CiclosDeTreinamento, Error);
+	PrintarValores();
+	printf("Treinamento concluido! \n\n");
+	IntervaloTreinamentosPrintTela = 1;
+}
+
+void NeuralNetwork::PrintarValores()
+{
+	for (p = 0; p < PadroesTreinamento; p++)
+	{
+		printf("  Padrao de treinamento: %d \n", p);
+		printf("  Entrada: ");
+		for (i = 0; i < NodosEntrada; i++)
+			printf(" %f  ", Input[p][i]);
+
+		printf("\n  Objetivo: ");
+		for (i = 0; i < NodosSaida; i++)
+			printf(" %f ", Objetivo[p][i]);
+
+		// Computar as ativacoes da camada oculta
+		for (i = 0; i < NodosOcultos; i++)
+		{
+			AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
+			for (j = 0; j < NodosEntrada; j++)
+			{
+				AcumulaPeso += Input[p][j] * PesosCamadaOculta[j][i];
+			}
+			Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide
+		}
+
+		// Computar as ativacoes da camada de saida e calcular os seus erros
+		for (i = 0; i < NodosSaida; i++)
+		{
+			AcumulaPeso = PesosSaida[NodosOcultos][i];
+			for (j = 0; j < NodosOcultos; j++)
+			{
+				AcumulaPeso += Oculto[j] * PesosSaida[j][i];
+			}
+			Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide
+		}
+
+		printf("\n  Saida: ");
+		for (i = 0; i < NodosSaida; i++)
+			printf(" %f ", Saida[i], 5);
+	}
+}
+
+void NeuralNetwork::testarValor()
+{
+	printf("  Testando valores: \n");
+	printf("  Training Pattern: \n");
+	printf("  Input \n");
+	for (i = 0; i < NodosEntrada; i++)
+		printf(" %f ", ValoresSensores[0][i]);
+
+	printf("\n\n Direita,            Esquerda,              Frente,            Atras \n\n");
+
+	for (p = 0; p < 1; p++)
+	{
+		// Computar as ativacoes da camada oculta
+		for (i = 0; i < NodosOcultos; i++)
+		{
+			AcumulaPeso = PesosCamadaOculta[NodosEntrada][i];
+			for (j = 0; j < NodosEntrada; j++)
+			{
+				AcumulaPeso += ValoresSensores[p][j] * PesosCamadaOculta[j][i];
+			}
+			Oculto[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide
+		}
+		// Computar as ativacoes da camada de saida e calcular os seus erros
+		for (i = 0; i < NodosSaida; i++)
+		{
+			AcumulaPeso = PesosSaida[NodosOcultos][i];
+			for (j = 0; j < NodosOcultos; j++)
+			{
+				AcumulaPeso += Oculto[j] * PesosSaida[j][i];
+			}
+			Saida[i] = 1.0 / (1.0 + exp(-AcumulaPeso)); // Funcao Sigmoide
+		}
+
+		printf("  Saida \n");
+		for (i = 0; i < NodosSaida; i++)
+			printf(" %f ", Saida[i]);
+
+		printf("\n\n");
+
+		//   DR [0],  AR [1],  DM [2]
+		
+		printf("Direcao da Rotacao: \n");
+		if (Saida[0] >= 0.125 && Saida[0] < 0.375)
+			printf("DIREITA\n\n");
+		else if (Saida[0] >= 0.375 && Saida[0] < 0.625)
+			printf("ESQUERDA\n\n");
+		else if (Saida[0] >= 0.625 && Saida[0] < 0.875)
+			printf("FRENTE\n\n");
+		else
+			printf("VALOR INDEFINIDO\n\n");
+
+		printf("Angulo de Rotacao: \n");
+		if (Saida[1] >= 0.125 && Saida[1] < 0.375)
+			printf("LATERAL 5 GRAUS\n\n");
+		else if (Saida[1] >= 0.375 && Saida[1] < 0.625)
+			printf("DIAGONAL 15 GRAUS\n\n");
+		else if (Saida[1] >= 0.625 && Saida[1] < 0.875)
+			printf("FRONTAL 5 GRAUS\n\n");
+		else
+			printf("VALOR INDEFINIDO\n\n");
+
+		printf("Direcao de movimento: \n");
+		if (Saida[2] >= 0.1 && Saida[2] < 0.5)
+			printf("FRENTE\n\n");
+		else if (Saida[2] >= 0.5 && Saida[2] < 0.9)
+			printf("RE\n\n");
+		else
+			printf("VALOR INDEFINIDO\n\n");
+
+
+		printf(" %f ", Saida[0]);
+	}
+}
+
+void NeuralNetwork::loop(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7) // Loop principal do Arduino
+{
+	ValoresSensores[0][0] = sensor0;
+	ValoresSensores[0][1] = sensor1;
+	ValoresSensores[0][2] = sensor2;
+	ValoresSensores[0][3] = sensor3;
+	ValoresSensores[0][4] = sensor4;
+	ValoresSensores[0][5] = sensor5;
+	ValoresSensores[0][6] = sensor6;
+	ValoresSensores[0][7] = sensor7;
+
+	printf(" sensor0: %d   \n", sensor0);
+	printf(" sensor1: %d   \n", sensor1);
+	printf(" sensor2: %d   \n", sensor2);
+	printf(" sensor3: %d   \n", sensor3);
+	printf(" sensor4: %d   \n", sensor4);
+	printf(" sensor5: %d   \n", sensor5);
+	printf(" sensor6: %d   \n", sensor6);
+	printf(" sensor7: %d   \n", sensor7);
+
+	testarValor();
+}

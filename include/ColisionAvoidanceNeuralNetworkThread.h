@@ -16,7 +16,7 @@ ColisionAvoidanceNeuralNetworkThread(PioneerRobot *_robo);
     void waitOnCondition();
     void lockMutex();
     void unlockMutex();
-    void tratamentoSimples();
+    void tratamentoRna();
 };
 
 #endif // COLISIONAVOIDANCENEURALNETWORKTHREAD_H
