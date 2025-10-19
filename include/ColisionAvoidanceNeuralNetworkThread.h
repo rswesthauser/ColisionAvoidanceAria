@@ -3,6 +3,7 @@
 #include "Aria.h"
 #include "ClassRobo.h"
 #include "NeuralNetwork.h"
+#include "ExpectedMovement.h"
 
 class ColisionAvoidanceNeuralNetworkThread : public ArASyncTask{
 public:

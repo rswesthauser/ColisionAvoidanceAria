@@ -31,12 +31,12 @@ void ColisionAvoidanceNeuralNetworkThread::unlockMutex() { myMutex.unlock(); }
 
 void ColisionAvoidanceNeuralNetworkThread::tratamentoRna()
 {
-    ArLog::log(ArLog::Normal, "Colision Avoidance: tratamentoRna");
-    //neuralNetwork.treinarValidar();
-    
-    /*if(robo->robot.isHeadingDone())
+
+    if(robo->robot.isHeadingDone())
     {
-        neuralNetwork.loop(int sonar[0] , int sonar[1] , int sonar[2] , int sonar[3] , int sonar[4] , int sonar[5] , int sonar[6] , int sonar[7]);
-    }*/
+        ExpectedMovement movement =  neuralNetwork->definirAcao(sonar[0], sonar[1], sonar[2], sonar[3], sonar[4], sonar[5], sonar[6], sonar[7]);
+
+        printf("DirecaoRotacao %f DirecaoMovimento %f AnguloRotacao %f", movement.DirecaoRotacao), movement.DirecaoMovimento, movement.AnguloRotacao;
+    }
 }
 

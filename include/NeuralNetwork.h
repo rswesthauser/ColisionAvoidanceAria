@@ -7,6 +7,7 @@
 #include "Sigmoid.h"
 #include "ReLU.h"
 #include "LeakyReLU.h"
+#include "ExpectedMovement.h"
 
 
 #define PadroesValidacao 24
@@ -247,8 +248,8 @@ public:
     void inicializacaoPesos();
     int treinoInicialRede();
     void PrintarValores();
-    void testarValor();
-    void loop(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7);
+    ExpectedMovement testarValor();
+    ExpectedMovement definirAcao(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7);
     void validarRedeNeural();
     void treinarValidar();
     void normalizarEntradas();

@@ -335,15 +335,15 @@ void NeuralNetwork::PrintarValores()
 	}
 }
 
-void NeuralNetwork::testarValor()
+ExpectedMovement NeuralNetwork::testarValor()
 {
+    float direcaoRotacao, direcaoMovimento, anguloRotacao;
+
 	printf("  Testando valores: \n");
 	printf("  Training Pattern: \n");
 	printf("  Input \n");
 	for (i = 0; i < NodosEntrada; i++)
 		printf(" %f ", ValoresSensores[0][i]);
-
-	printf("\n\n Direita,            Esquerda,              Frente,            Atras \n\n");
 
 	for (p = 0; p < 1; p++)
 	{
@@ -377,11 +377,10 @@ void NeuralNetwork::testarValor()
 
 		printf("\n\n");
 
-		//   DR [0],  AR [1],  DM [2]
-		
 		printf("Direcao da Rotacao: \n");
 		if (Saida[0] >= 0.125 && Saida[0] < 0.375)
 			printf("DIREITA\n\n");
+
 		else if (Saida[0] >= 0.375 && Saida[0] < 0.625)
 			printf("ESQUERDA\n\n");
 		else if (Saida[0] >= 0.625 && Saida[0] < 0.875)
@@ -407,12 +406,13 @@ void NeuralNetwork::testarValor()
 		else
 			printf("VALOR INDEFINIDO\n\n");
 
-
 		printf(" %f ", Saida[0]);
 	}
+
+    return ExpectedMovement(Saida[0], Saida[2], Saida[1]);
 }
 
-void NeuralNetwork::loop(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7)
+ExpectedMovement NeuralNetwork::definirAcao(int sensor0, int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, int sensor6, int sensor7)
 {
 	bool ocultasReLUish = false;
 
@@ -444,18 +444,18 @@ void NeuralNetwork::loop(int sensor0, int sensor1, int sensor2, int sensor3, int
     }
 
 
-	printf(" sensor0: %d   \n", sensor0);
-	printf(" sensor1: %d   \n", sensor1);
-	printf(" sensor2: %d   \n", sensor2);
-	printf(" sensor3: %d   \n", sensor3);
-	printf(" sensor4: %d   \n", sensor4);
-	printf(" sensor5: %d   \n", sensor5);
-	printf(" sensor6: %d   \n", sensor6);
-	printf(" sensor7: %d   \n", sensor7);
+	printf(" sensor0: %d  ", sensor0);
+	printf(" sensor1: %d  ", sensor1);
+	printf(" sensor2: %d  ", sensor2);
+	printf(" sensor3: %d  ", sensor3);
+	printf(" sensor4: %d  ", sensor4);
+	printf(" sensor5: %d  ", sensor5);
+	printf(" sensor6: %d  ", sensor6);
+	printf(" sensor7: %d  ", sensor7);
 
     printf("Valores normalizados dos sensores:\n");
     for (int i = 0; i < 8; i++)
         printf(" Sensor%d: %.4f\n", i, ValoresSensores[0][i]);
 
-	testarValor();
+	return testarValor();
 }
