@@ -31,5 +31,6 @@ void ColisionAvoidanceNeuralNetworkThread::unlockMutex() { myMutex.unlock(); }
 void ColisionAvoidanceNeuralNetworkThread::tratamentoRna()
 {
     neuralNetwork.treinarValidar();
+    ArUtil::sleep(9999999999);
 }
 

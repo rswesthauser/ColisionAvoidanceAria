@@ -8,7 +8,7 @@
 #include "ReLU.h"
 #include "LeakyReLU.h"
 
-#define PadroesValidacao 4
+#define PadroesValidacao 24
 #define PadroesTreinamento 24 
 #define TaxaAprendizado 0.3 //0.3 converge super rápido e com uma boa precisão.
 #define Momentum 0.9 // Dificulta a convergencia da rede em minimos locais, fazendo com que convirja apenas quando realmente se tratar de um valor realmente significante.
@@ -162,19 +162,71 @@ public:
     
     //Dados de validação
     const float InputValidacao[PadroesValidacao][NodosEntrada] = {
-        {0,      0,       0,       900,     800,     0,       0,       0,},
-        {0,      0,       0,       750,     0,       0,       0,       0,},
-        {0,      0,       0,       0,       950,     0,       0,       0,},
-        {0,      0,       0,       600,     8000,    0,       0,       0,}
+        //Obstáculo apenas á frente
+        {0,      0,       0,     900,     800,      0,       0,       0},
+        {0,      0,       0,     750,       0,      0,       0,       0},
+        {0,      0,       0,       0,     950,      0,       0,       0},
+        {0,      0,       0,     600,     800,      0,       0,       0},
+    //obstáculo a direit
+        {0,      0,       0,       0,       0,     0,       0,       100},
+        {0,      0,       0,       0,       0,     0,       0,       400},
+        {0,      0,       0,       0,       0,     0,    1000,       300},
+        {0,      0,       0,       0,       0,     0,       0,       450},
+    //obstáculo a direita (diagonal
+        {0,      0,       0,       0,        0,     800,     700,       0},
+        {0,      0,       0,       0,        0,     600,     800,       0},
+        {0,      0,       0,       0,        0,     650,     710,       0},
+        {0,      0,       0,    1100,     1050,     800,     700,       0},
+    //obstaculo a esquerd
+        {150,    0,       0,      0,       0,       0,       0,       0},
+        {370,    0,       0,      0,       0,       0,       0,       0},
+        {450,   800,      0,      0,       0,       0,       0,       0},
+        {400,    0,       0,      0,       0,       0,       0,       0},
+    //obstaculo a esquerda (diagonal
+        {0,      690,     830,       0,       0,       0,       0,       0},
+        {0,      770,     620,       0,       0,       0,       0,       0},
+        {0,      700,     590,       0,       0,       0,       0,       0},
+        {0,      690,     840,    1090,    1300,       0,       0,       0},
+    //obstaculo muito perto a frent
+        {0,      0,       0,       150,       148,       0,       0,       0},
+        {0,      0,       0,       100,       110,       0,       0,       0},
+        {800,    900,     870,     180,       175,       0,       0,       0},
+        {0,      0,       0,       120,       125,     890,     850,     800}
     
     };
     float InputValidacaoNormalizado[PadroesValidacao][NodosEntrada];
     
     const float ObjetivoValidacao[PadroesValidacao][NodosSaida] = {
+        //Obstáculo apenas á frente
         {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE}, 
         {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
-        {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE}
+        {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
+    //obstáculo a direita
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+    //obstáculo a direita (diagonal)
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+    //obstaculo a esquerda
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+    //obstaculo a esquerda (diagonal)
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+    //obstaculo muito perto a frente
+        {OUT_DR_FRENTE, OUT_AR_FRONTAL, OUT_DM_RE}, 
+        {OUT_DR_FRENTE, OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}
     };
     
     //--
