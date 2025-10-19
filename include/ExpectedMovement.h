@@ -31,7 +31,12 @@ class ExpectedMovement {
   float DirecaoMovimento;
   float AnguloRotacao;
 
+  float DirecaoRotacaoProcessada;
+  float DirecaoMovimentoProcessada;
+  float AnguloRotacaoProcessado;
+
   ExpectedMovement(float _direcaoRotacao, float _direcaoMovimento, float _anguloRotacao);
+  void ProcessarMovimento();
 };
 
 

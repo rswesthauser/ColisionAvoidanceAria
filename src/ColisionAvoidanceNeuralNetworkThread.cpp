@@ -35,8 +35,9 @@ void ColisionAvoidanceNeuralNetworkThread::tratamentoRna()
     if(robo->robot.isHeadingDone())
     {
         ExpectedMovement movement =  neuralNetwork->definirAcao(sonar[0], sonar[1], sonar[2], sonar[3], sonar[4], sonar[5], sonar[6], sonar[7]);
-
-        printf("DirecaoRotacao %f DirecaoMovimento %f AnguloRotacao %f", movement.DirecaoRotacao), movement.DirecaoMovimento, movement.AnguloRotacao;
+        printf("\nDirecaoRotacaoProcessada %f DirecaoMovimento %f AnguloRotacao %f", movement.DirecaoRotacaoProcessada, movement.DirecaoMovimento, movement.AnguloRotacao);
+        movement.ProcessarMovimento();
+        printf("\nDirecaoRotacao %f DirecaoMovimentoProcessada %f AnguloRotacaoProcessado %f", movement.DirecaoRotacao, movement.DirecaoMovimentoProcessada, movement.AnguloRotacaoProcessado);
     }
 }
 

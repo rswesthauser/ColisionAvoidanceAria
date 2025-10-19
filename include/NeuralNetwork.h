@@ -28,7 +28,6 @@
 
 
 //Saidas da rede neural
-//Angulo de rocacao (0 - 45 graus)
 
 //Direcao de rotacao
 //   Direita              Reto            Esquerda
@@ -44,6 +43,7 @@
 #define OUT_DM_FRENTE     0.3      
 #define OUT_DM_RE         0.7
 
+//Angulo de rocacao (0 - 45 graus)
 //Angulo de rotacao
 //   Lateral             Diagonal        Frontal
 //0.125 - 0.375      0.375 - 0.625      0.625 - 0.875

@@ -394,7 +394,7 @@ ExpectedMovement NeuralNetwork::testarValor()
 		else if (Saida[1] >= 0.375 && Saida[1] < 0.625)
 			printf("DIAGONAL 15 GRAUS\n\n");
 		else if (Saida[1] >= 0.625 && Saida[1] < 0.875)
-			printf("FRONTAL 5 GRAUS\n\n");
+			printf("FRONTAL 45 GRAUS\n\n");
 		else
 			printf("VALOR INDEFINIDO\n\n");
 
@@ -455,7 +455,7 @@ ExpectedMovement NeuralNetwork::definirAcao(int sensor0, int sensor1, int sensor
 
     printf("Valores normalizados dos sensores:\n");
     for (int i = 0; i < 8; i++)
-        printf(" Sensor%d: %.4f\n", i, ValoresSensores[0][i]);
+        printf(" Sensor%d: %.4f ", i, ValoresSensores[0][i]);
 
 	return testarValor();
 }
