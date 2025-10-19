@@ -10,10 +10,10 @@ public:
     ArCondition myCondition;
     ArMutex myMutex;
     int sonar[8];
-    NeuralNetwork neuralNetwork;
+    NeuralNetwork *neuralNetwork;
 
 public:
-ColisionAvoidanceNeuralNetworkThread(PioneerRobot *_robo);
+ColisionAvoidanceNeuralNetworkThread(PioneerRobot *_robo, NeuralNetwork *_neuralNetwork);
     void* runThread(void*);
     void waitOnCondition();
     void lockMutex();

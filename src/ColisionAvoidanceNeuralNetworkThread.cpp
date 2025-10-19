@@ -2,9 +2,10 @@
 #include "Config.h"
 #include <iostream>
 
-ColisionAvoidanceNeuralNetworkThread::ColisionAvoidanceNeuralNetworkThread(PioneerRobot *_robo)
+ColisionAvoidanceNeuralNetworkThread::ColisionAvoidanceNeuralNetworkThread(PioneerRobot *_robo, NeuralNetwork *_neuralNetwork)
 {
     this->robo = _robo;
+    this->neuralNetwork = _neuralNetwork;
 }
 
 void* ColisionAvoidanceNeuralNetworkThread::runThread(void*)
@@ -30,7 +31,6 @@ void ColisionAvoidanceNeuralNetworkThread::unlockMutex() { myMutex.unlock(); }
 
 void ColisionAvoidanceNeuralNetworkThread::tratamentoRna()
 {
-    ArUtil::sleep(999999999);
     ArLog::log(ArLog::Normal, "Colision Avoidance: tratamentoRna");
     //neuralNetwork.treinarValidar();
     

@@ -9,6 +9,7 @@
 #include "ColisionAvoidanceNeuralNetworkThread.h"
 
 PioneerRobot *robo;
+NeuralNetwork *neuralNetwork;
 
 int main(int argc, char **argv)
 {
@@ -17,12 +18,15 @@ int main(int argc, char **argv)
     //Simulador
     robo = new PioneerRobot(ConexaoSimulacao,"",&sucesso);
 
+    neuralNetwork = new NeuralNetwork();
+
     //Radio
     //robo = new PioneerRobot(ConexaoRadio,"192.168.1.11",&sucesso);
     //cout << "Sucesso = " << sucesso << "\n";
 
+    ArLog::log(ArLog::Normal, "Criando as theads...");
     ColisionAvoidanceThread colisionAvoidanceThread(robo);
-    ColisionAvoidanceNeuralNetworkThread colisionAvoidanceNeuralNetworkThread(robo);
+    ColisionAvoidanceNeuralNetworkThread colisionAvoidanceNeuralNetworkThread(robo, neuralNetwork);
     WallFollowerThread wallFollowerThread(robo);
     SonarThread sonarReadingThread(robo);
     LaserThread laserReadingThread(robo);
