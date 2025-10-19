@@ -8,13 +8,23 @@
 #include "ReLU.h"
 #include "LeakyReLU.h"
 
+
 #define PadroesValidacao 24
 #define PadroesTreinamento 24 
-#define TaxaAprendizado 0.3 //0.3 converge super rápido e com uma boa precisão.
-#define Momentum 0.9 // Dificulta a convergencia da rede em minimos locais, fazendo com que convirja apenas quando realmente se tratar de um valor realmente significante.
-#define MaximoPesoInicial 0.5
 #define Sucesso 0.004		 // 0.0004
 #define NumeroCiclos 100000 // Exibir o progresso do treinamento a cada NumeroCiclos ciclos
+
+//Sigmoide
+#define TaxaAprendizado 0.3 //0.3 converge super rápido e com uma boa precisão (sigmoide na oculta).
+#define Momentum 0.9 // Dificulta a convergencia da rede em minimos locais, fazendo com que convirja apenas quando realmente se tratar de um valor realmente significante.
+#define MaximoPesoInicial 0.5
+
+
+//ReLUish
+//#define TaxaAprendizado 0.05  // ou até 0.01
+//#define Momentum 0.8
+//#define MaximoPesoInicial 1.0  // ou ignora, se usar He init
+
 
 //Saidas da rede neural
 //Angulo de rocacao (0 - 45 graus)

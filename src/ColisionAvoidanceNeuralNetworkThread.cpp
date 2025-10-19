@@ -30,7 +30,13 @@ void ColisionAvoidanceNeuralNetworkThread::unlockMutex() { myMutex.unlock(); }
 
 void ColisionAvoidanceNeuralNetworkThread::tratamentoRna()
 {
-    neuralNetwork.treinarValidar();
-    ArUtil::sleep(9999999999);
+    ArUtil::sleep(999999999);
+    ArLog::log(ArLog::Normal, "Colision Avoidance: tratamentoRna");
+    //neuralNetwork.treinarValidar();
+    
+    /*if(robo->robot.isHeadingDone())
+    {
+        neuralNetwork.loop(int sonar[0] , int sonar[1] , int sonar[2] , int sonar[3] , int sonar[4] , int sonar[5] , int sonar[6] , int sonar[7]);
+    }*/
 }
 
