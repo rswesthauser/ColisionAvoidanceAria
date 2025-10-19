@@ -10,8 +10,8 @@
 #include "ExpectedMovement.h"
 
 
-#define PadroesValidacao 24
-#define PadroesTreinamento 24 
+#define PadroesValidacao 28
+#define PadroesTreinamento 28 
 #define Sucesso 0.004		 // 0.0004
 #define NumeroCiclos 100000 // Exibir o progresso do treinamento a cada NumeroCiclos ciclos
 
@@ -45,12 +45,13 @@
 
 //Angulo de rocacao (0 - 45 graus)
 //Angulo de rotacao
-//   Lateral             Diagonal        Frontal
-//0.125 - 0.375      0.375 - 0.625      0.625 - 0.875
-//    0,25				  0,5               0,75
-#define OUT_AR_LATERAL     0.25    //5
-#define OUT_AR_DIAGONAL    0.5     //15
-#define OUT_AR_FRONTAL     0.75    //45
+//Sem Rotacao(0)     Lateral(5)             Diagonal(15)        Frontal(34)
+// 0,1 - 0,3         0,3 - 0,5              0,5 - 0,7           0,7 - 0,9
+//    0.2               0,4                    0,6                 0,8
+#define OUT_AR_SEM_ROTACAO  0.2    //0
+#define OUT_AR_LATERAL      0.4    //5
+#define OUT_AR_DIAGONAL     0.6    //15
+#define OUT_AR_FRONTAL      0.8    //45
 
 #define ALCANCE_MAX_SENSOR 5000
 
@@ -133,7 +134,14 @@ public:
         {0,      0,       0,       150,       148,       0,       0,       0},
         {0,      0,       0,       100,       110,       0,       0,       0},
         {800,    900,     870,     180,       175,       0,       0,       0},
-        {0,      0,       0,       120,       125,     890,     850,     800}
+        {0,      0,       0,       120,       125,     890,     850,     800},
+    //sem bostaculos proximos   
+    //  {500,    750,     750,     200,       200,     750,     750,     500}, o obstaculo precisa estar abaixo disso para tomar uma ação
+        {600,    800,     800,     300,       300,     800,     800,     800},
+        {1000,   1002,    1004,    1006,      1010,    1001,    1020,    1100},
+        {3002,   3010,    3134,    3020,      3113,    3029,    3789,    3321},
+        {5000,   5000,    5000,    5000,      5000,    5000,    5000,    5000}
+
     };
     float InputNormalizado[PadroesTreinamento][NodosEntrada];
 
@@ -165,10 +173,15 @@ public:
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
     //obstaculo muito perto a frente
-        {OUT_DR_FRENTE, OUT_AR_FRONTAL, OUT_DM_RE}, 
-        {OUT_DR_FRENTE, OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
         {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+    //sem bostaculos proximos 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}
     };
     
     //Dados de validação

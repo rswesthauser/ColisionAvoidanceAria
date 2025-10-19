@@ -19,11 +19,13 @@ void ExpectedMovement::ProcessarMovimento()
     else
         this->DirecaoRotacaoProcessada = -999;//Parar movimento
 
-    if (this->AnguloRotacao >= 0.125 && this->AnguloRotacao < 0.375)//5 Lateral
+    if (this->AnguloRotacao  >= 0.1 && this->AnguloRotacao  < 0.3)//0 Seguir em frente
+        this->AnguloRotacaoProcessado = 0;
+    else if (this->AnguloRotacao >= 0.3 && this->AnguloRotacao < 0.5)//5 Lateral
         this->AnguloRotacaoProcessado = 5;
-    else if (this->AnguloRotacao >= 0.375 && this->AnguloRotacao < 0.625)//15 Diagonal
+    else if (this->AnguloRotacao >= 0.5 && this->AnguloRotacao < 0.7)//15 Diagonal
         this->AnguloRotacaoProcessado = 15;
-    else if (this->AnguloRotacao >= 0.625 && this->AnguloRotacao < 0.875)//45 Frontal
+    else if (this->AnguloRotacao >= 0.7 && this->AnguloRotacao < 0.9)//45 Frontal
         this->AnguloRotacaoProcessado = 45;
     else
         this->AnguloRotacaoProcessado = -999;//Parar movimento 

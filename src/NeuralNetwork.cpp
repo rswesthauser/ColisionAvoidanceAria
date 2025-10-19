@@ -389,11 +389,13 @@ ExpectedMovement NeuralNetwork::testarValor()
 			printf("VALOR INDEFINIDO\n\n");
 
 		printf("Angulo de Rotacao: \n");
-		if (Saida[1] >= 0.125 && Saida[1] < 0.375)
+        if (Saida[1] >= 0.1 && Saida[1] < 0.3)
+			printf("SEM ROTACAO 0 GRAUS\n\n");
+		else if (Saida[1] >= 0.3 && Saida[1] < 0.5)
 			printf("LATERAL 5 GRAUS\n\n");
-		else if (Saida[1] >= 0.375 && Saida[1] < 0.625)
+		else if (Saida[1] >= 0.5 && Saida[1] < 0.7)
 			printf("DIAGONAL 15 GRAUS\n\n");
-		else if (Saida[1] >= 0.625 && Saida[1] < 0.875)
+		else if (Saida[1] >= 0.7 && Saida[1] < 0.9)
 			printf("FRONTAL 45 GRAUS\n\n");
 		else
 			printf("VALOR INDEFINIDO\n\n");
