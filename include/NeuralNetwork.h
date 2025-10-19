@@ -215,7 +215,13 @@ public:
         {0,      0,       0,       150,       148,       0,       0,       0},
         {0,      0,       0,       100,       110,       0,       0,       0},
         {800,    900,     870,     180,       175,       0,       0,       0},
-        {0,      0,       0,       120,       125,     890,     850,     800}
+        {0,      0,       0,       120,       125,     890,     850,     800},
+    //sem bostaculos proximos   
+    //  {500,    750,     750,     200,       200,     750,     750,     500}, o obstaculo precisa estar abaixo disso para tomar uma ação
+        {600,    800,     800,     300,       300,     800,     800,     800},
+        {1000,   1002,    1004,    1006,      1010,    1001,    1020,    1100},
+        {3002,   3010,    3134,    3020,      3113,    3029,    3789,    3321},
+        {5000,   5000,    5000,    5000,      5000,    5000,    5000,    5000}
     
     };
     float InputValidacaoNormalizado[PadroesValidacao][NodosEntrada];
@@ -250,7 +256,12 @@ public:
         {OUT_DR_FRENTE, OUT_AR_FRONTAL, OUT_DM_RE}, 
         {OUT_DR_FRENTE, OUT_AR_FRONTAL, OUT_DM_RE},
         {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+    //sem bostaculos proximos 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}
     };
     
     //--

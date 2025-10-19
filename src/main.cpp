@@ -25,11 +25,17 @@ int main(int argc, char **argv)
     //cout << "Sucesso = " << sucesso << "\n";
 
     ArLog::log(ArLog::Normal, "Criando as theads...");
-    ColisionAvoidanceThread colisionAvoidanceThread(robo);
+    //ColisionAvoidanceThread colisionAvoidanceThread(robo);
     ColisionAvoidanceNeuralNetworkThread colisionAvoidanceNeuralNetworkThread(robo, neuralNetwork);
-    WallFollowerThread wallFollowerThread(robo);
+    //WallFollowerThread wallFollowerThread(robo);
     SonarThread sonarReadingThread(robo);
-    LaserThread laserReadingThread(robo);
+    //LaserThread laserReadingThread(robo);
+
+    ArLog::log(ArLog::Normal, "Sonar Readings thread ...");
+    sonarReadingThread.runAsync();
+
+    //ArLog::log(ArLog::Normal, "Laser Readings thread ...");
+    //laserReadingThread.runAsync();
 
     //ArLog::log(ArLog::Normal, "Colision Avoidance thread ...");
     //colisionAvoidanceThread.runAsync();
@@ -39,12 +45,6 @@ int main(int argc, char **argv)
     
     //ArLog::log(ArLog::Normal, "Wall Following thread ...");
     //wallFollowerThread.runAsync();
-
-    ArLog::log(ArLog::Normal, "Sonar Readings thread ...");
-    sonarReadingThread.runAsync();
-
-    //ArLog::log(ArLog::Normal, "Laser Readings thread ...");
-    //laserReadingThread.runAsync();
 
     robo->robot.waitForRunExit();
     

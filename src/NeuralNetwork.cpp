@@ -57,7 +57,7 @@ void NeuralNetwork::validarRedeNeural()
 
             ErrorValidacao += 0.5 * (ObjetivoValidacao[p][i] - Saida[i]) * (ObjetivoValidacao[p][i] - Saida[i]);
         }
-        printf("Padrao %d | Objetivo: %.2f | Saida: %.2f\n", p, ObjetivoValidacao[p][0], Saida[0]);
+        printf("Padrao %d | Objetivo: %.2f  %.2f  %.2f | Saida: %.2f  %.2f  %.2f\n", p, ObjetivoValidacao[p][0], ObjetivoValidacao[p][1], ObjetivoValidacao[p][2], Saida[0], Saida[1], Saida[2]);
     }
 
     printf("Erro de validacao: %f\n", ErrorValidacao);
