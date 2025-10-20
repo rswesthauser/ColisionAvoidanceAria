@@ -163,15 +163,15 @@ public:
         {0,    877.5,    727.5, 1277.5,  1487.5,       5000,       5000,      5000},
  
     //obstaculo muito perto a frente (peto) (<=200)
-        {5000,  5000,     5000,     150,       148,    5000,    5000,    5000},
-        {5000,  5000,     5000,     100,       110,    5000,    5000,    5000},
-        {800,    900,      870,     180,       175,    5000,    5000,    5000},
-        {5000,  5000,     5000,     120,       125,     890,     850,     800},
+        {5000,  5000,     5000,     150,       148,    5000,    5000,    5000}, 
+        {5000,  5000,     5000,     100,       110,    5000,    5000,    5000}, 
+        {800,    900,      870,     175,       180,    5000,    5000,    5000}, 
+        {5000,  5000,     5000,     125,       120,     890,     850,     800}, 
     //obstaculo muito perto a frente (medio) +50 25%
         {5000,  5000,    5000,       200,       198,    5000,    5000,    5000},
         {5000,  5000,    5000,       150,       160,    5000,    5000,    5000},
-        {850,    950,     920,       230,       225,    5000,    5000,    5000},
-        {5000,  5000,    5000,       170,       175,     940,     900,     850},
+        {850,    950,     920,       225,       230,    5000,    5000,    5000},
+        {5000,  5000,    5000,       175,       170,     940,     900,     850},
 
     //sem bostaculos proximos (200+ 500+ 750+)  
     //  {500,    750,     750,     200,       200,     750,     750,     500}, o obstaculo precisa estar abaixo disso para tomar uma ação
@@ -234,14 +234,15 @@ public:
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
     //obstaculo muito perto a frente
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_RE}, 
+        {OUT_DR_DIREITA,  OUT_AR_DIAGONAL, OUT_DM_RE},
+        {OUT_DR_DIREITA,  OUT_AR_DIAGONAL, OUT_DM_RE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_RE},
+
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_RE}, 
+        {OUT_DR_DIREITA,  OUT_AR_DIAGONAL, OUT_DM_RE},
+        {OUT_DR_DIREITA,  OUT_AR_DIAGONAL, OUT_DM_RE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_RE},
     //sem bostaculos proximos 
         {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
         {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
@@ -313,15 +314,15 @@ public:
         {0,    877.5,    727.5, 1277.5,  1487.5,       5000,       5000,      5000},
  
     //obstaculo muito perto a frente (peto) (<=200)
-        {5000,  5000,     5000,     150,       148,    5000,    5000,    5000},
-        {5000,  5000,     5000,     100,       110,    5000,    5000,    5000},
-        {800,    900,      870,     180,       175,    5000,    5000,    5000},
-        {5000,  5000,     5000,     120,       125,     890,     850,     800},
+        {5000,  5000,     5000,     150,       148,    5000,    5000,    5000}, 
+        {5000,  5000,     5000,     100,       110,    5000,    5000,    5000}, 
+        {800,    900,      870,     175,       180,    5000,    5000,    5000}, 
+        {5000,  5000,     5000,     125,       120,     890,     850,     800}, 
     //obstaculo muito perto a frente (medio) +50 25%
         {5000,  5000,    5000,       200,       198,    5000,    5000,    5000},
         {5000,  5000,    5000,       150,       160,    5000,    5000,    5000},
-        {850,    950,     920,       230,       225,    5000,    5000,    5000},
-        {5000,  5000,    5000,       170,       175,     940,     900,     850},
+        {850,    950,     920,       225,       230,    5000,    5000,    5000},
+        {5000,  5000,    5000,       175,       170,     940,     900,     850},
 
     //sem bostaculos proximos (200+ 500+ 750+)  
     //  {500,    750,     750,     200,       200,     750,     750,     500}, o obstaculo precisa estar abaixo disso para tomar uma ação
@@ -383,14 +384,15 @@ public:
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
     //obstaculo muito perto a frente
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_RE}, 
+        {OUT_DR_DIREITA,  OUT_AR_DIAGONAL, OUT_DM_RE},
+        {OUT_DR_DIREITA,  OUT_AR_DIAGONAL, OUT_DM_RE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_RE},
+
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_RE}, 
+        {OUT_DR_DIREITA,  OUT_AR_DIAGONAL, OUT_DM_RE},
+        {OUT_DR_DIREITA,  OUT_AR_DIAGONAL, OUT_DM_RE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_RE},
     //sem bostaculos proximos 
         {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
         {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
