@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     //colisionAvoidanceThread.runAsync();
 
     ArLog::log(ArLog::Normal, "Colision Avoidance Neural Network thread ...");
-    colisionAvoidanceNeuralNetworkThread.runAsync();
+    //colisionAvoidanceNeuralNetworkThread.runAsync();
     
     //ArLog::log(ArLog::Normal, "Wall Following thread ...");
     //wallFollowerThread.runAsync();

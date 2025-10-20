@@ -40,8 +40,8 @@ void ColisionAvoidanceNeuralNetworkThread::tratamentoRna()
         printf("\nDirecaoRotacao %f DirecaoMovimentoProcessada %f AnguloRotacaoProcessado %f", movement.DirecaoRotacao, movement.DirecaoMovimentoProcessada, movement.AnguloRotacaoProcessado);
 
         if(movement.DirecaoRotacaoProcessada == 999 || movement.AnguloRotacaoProcessado == 999 || movement.DirecaoMovimentoProcessada == 999)
-            //robo->pararMovimento();
-            robo->Rotaciona(30, 1, -VELOCIDADEROTACAO);
+            robo->pararMovimento();
+            //robo->Rotaciona(30, 1, -VELOCIDADEROTACAO);
         else
         {
             if(movement.DirecaoRotacaoProcessada == 0)//Não rotacionar

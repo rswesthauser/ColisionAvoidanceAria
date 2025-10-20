@@ -12,7 +12,7 @@
 
 #define PadroesValidacao 56
 #define PadroesTreinamento 56 
-#define Sucesso 0.1		 // 0.0004
+#define Sucesso 0.0001		 // 0.0004
 #define NumeroCiclos 100000 // Exibir o progresso do treinamento a cada NumeroCiclos ciclos
 
 //Sigmoide

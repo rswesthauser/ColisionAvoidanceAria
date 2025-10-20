@@ -16,22 +16,26 @@ SRC = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 # Final target
-TARGET = build/main
+TARGET = $(OBJ_DIR)/main
 
 # Default target to build
 all: $(TARGET)
+
+# Ensure build directory exists before compiling
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 # Link object files to create the executable
 $(TARGET): $(OBJ)
 	$(CXX) $(OBJ) -o $(TARGET) $(LDFLAGS)
 
 # Rule for compiling .cpp files into .o (object files)
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean up build files
 clean:
-	rm -f $(OBJ_DIR) $(TARGET)
+	rm -rf $(OBJ_DIR)
 
 # Phony targets
 .PHONY: all clean
