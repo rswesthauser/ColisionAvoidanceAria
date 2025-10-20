@@ -10,9 +10,9 @@
 #include "ExpectedMovement.h"
 
 
-#define PadroesValidacao 28
-#define PadroesTreinamento 28 
-#define Sucesso 0.004		 // 0.0004
+#define PadroesValidacao 56
+#define PadroesTreinamento 56 
+#define Sucesso 0.1		 // 0.0004
 #define NumeroCiclos 100000 // Exibir o progresso do treinamento a cada NumeroCiclos ciclos
 
 //Sigmoide
@@ -59,7 +59,7 @@
 #define NodosEntrada 8
 
 // Camada oculta
-#define NodosOcultos 18
+#define NodosOcultos 18 //18
 
 // Camada de saída
 #define NodosSaida 3
@@ -105,42 +105,84 @@ public:
     const float Input[PadroesTreinamento][NodosEntrada] = {
     //ESQUERDA 							  FRETENE								  DIREITA
     // {0, 		1, 		2, 		3, 		4, 		5, 		6, 		7}                   {0,      0,       0,       0,       0,       0,       0,       0,},
-    //Obstáculo apenas á frente
+    //Obstáculo apenas á frente (perto) (<=1000)
         {0,      0,       0,     900,     800,      0,       0,       0},
         {0,      0,       0,     750,       0,      0,       0,       0},
         {0,      0,       0,       0,     950,      0,       0,       0},
         {0,      0,       0,     600,     800,      0,       0,       0},
-    //obstáculo a direit
+    //Obstáculo apenas á frente (medio) +250 25%
+        {0,      0,       0,    1150,    1050,      0,       0,       0},
+        {0,      0,       0,    1000,       0,      0,       0,       0},
+        {0,      0,       0,       0,    1200,      0,       0,       0},
+        {0,      0,       0,     850,    1050,      0,       0,       0},
+
+    //obstáculo a direita (perto) (<= 500)
         {0,      0,       0,       0,       0,     0,       0,       100},
         {0,      0,       0,       0,       0,     0,       0,       400},
         {0,      0,       0,       0,       0,     0,    1000,       300},
         {0,      0,       0,       0,       0,     0,       0,       450},
-    //obstáculo a direita (diagonal
+    //obstáculo a direita (medio) +125 25%
+        {0,      0,       0,       0,       0,     0,       0,       225},
+        {0,      0,       0,       0,       0,     0,       0,       525},
+        {0,      0,       0,       0,       0,     0,    1225,       425},
+        {0,      0,       0,       0,       0,     0,       0,       575},
+
+    //obstáculo a direita (diagonal) (<=750)
         {0,      0,       0,       0,        0,     800,     700,       0},
         {0,      0,       0,       0,        0,     600,     800,       0},
         {0,      0,       0,       0,        0,     650,     710,       0},
         {0,      0,       0,    1100,     1050,     800,     700,       0},
-    //obstaculo a esquerd
+    //obstáculo a direita (diagonal) + 187.5 25%
+        {0,      0,       0,       0,        0,     987.5,   887.5,       0},
+        {0,      0,       0,       0,        0,     787.5,   987.5,       0},
+        {0,      0,       0,       0,        0,     837.5,   897.5,       0},
+        {0,      0,       0,  1287.5,   1237.5,     987.5,   887.5,       0},
+
+
+    //obstaculo a esquerda (perto) (perto) (<= 500)
         {150,    0,       0,      0,       0,       0,       0,       0},
         {370,    0,       0,      0,       0,       0,       0,       0},
         {450,   800,      0,      0,       0,       0,       0,       0},
         {400,    0,       0,      0,       0,       0,       0,       0},
-    //obstaculo a esquerda (diagonal
+    //obstaculo a esquerda (medio) +125 25%
+        {275,    0,       0,      0,       0,       0,       0,       0},
+        {575,    0,       0,      0,       0,       0,       0,       0},
+        {625,   925,      0,      0,       0,       0,       0,       0},
+        {525,    0,       0,      0,       0,       0,       0,       0},
+
+
+    //obstaculo a esquerda (diagonal) (perto) (<=750)
         {0,      690,     830,       0,       0,       0,       0,       0},
         {0,      770,     620,       0,       0,       0,       0,       0},
         {0,      700,     590,       0,       0,       0,       0,       0},
         {0,      690,     840,    1090,    1300,       0,       0,       0},
-    //obstaculo muito perto a frent
+    //obstaculo a esquerda (diagonal) (medio) + 187.5 25%
+        {0,    877.5,   1017.5,      0,       0,       0,       0,       0},
+        {0,    957.5,    807.5,      0,       0,       0,       0,       0},
+        {0,    887.5,    777.5,      0,       0,       0,       0,       0},
+        {0,    877.5,    727.5, 1277.5,  1487.5,       0,       0,       0},
+ 
+    //obstaculo muito perto a frente (peto) (<=200)
         {0,      0,       0,       150,       148,       0,       0,       0},
         {0,      0,       0,       100,       110,       0,       0,       0},
         {800,    900,     870,     180,       175,       0,       0,       0},
         {0,      0,       0,       120,       125,     890,     850,     800},
-    //sem bostaculos proximos   
+    //obstaculo muito perto a frente (medio) +50 25%
+        {0,      0,       0,       200,       198,       0,       0,       0},
+        {0,      0,       0,       150,       160,       0,       0,       0},
+        {850,    950,     920,     230,       225,       0,       0,       0},
+        {0,      0,       0,       170,       175,     940,     900,     850},
+
+    //sem bostaculos proximos (200+ 500+ 750+)  
     //  {500,    750,     750,     200,       200,     750,     750,     500}, o obstaculo precisa estar abaixo disso para tomar uma ação
         {600,    800,     800,     300,       300,     800,     800,     800},
         {1000,   1002,    1004,    1006,      1010,    1001,    1020,    1100},
+        {2000,   1802,    1904,    2306,      1912,    2221,    2329,    1999},
         {3002,   3010,    3134,    3020,      3113,    3029,    3789,    3321},
-        {5000,   5000,    5000,    5000,      5000,    5000,    5000,    5000}
+        {4003,   4022,    4204,    4506,      4811,    4201,    3990,    3970},
+        {800,    1000,    1000,     500,       500,    1000,    1000,    1000},
+        {1003,   2022,    2204,    1306,      1411,    2301,    2290,    1270},
+        {5000,   5000,    5000,    5000,      5000,    5000,    5000,    5000},
 
     };
     float InputNormalizado[PadroesTreinamento][NodosEntrada];
@@ -152,82 +194,6 @@ public:
         {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
-    //obstáculo a direita
-        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
-        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
-        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
-        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
-    //obstáculo a direita (diagonal)
-        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
-        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
-        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
-        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
-    //obstaculo a esquerda
-        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
-        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
-        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
-        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
-    //obstaculo a esquerda (diagonal)
-        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
-        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
-        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
-        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
-    //obstaculo muito perto a frente
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
-    //sem bostaculos proximos 
-        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
-        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
-        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
-        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}
-    };
-    
-    //Dados de validação
-    const float InputValidacao[PadroesValidacao][NodosEntrada] = {
-        //Obstáculo apenas á frente
-        {0,      0,       0,     900,     800,      0,       0,       0},
-        {0,      0,       0,     750,       0,      0,       0,       0},
-        {0,      0,       0,       0,     950,      0,       0,       0},
-        {0,      0,       0,     600,     800,      0,       0,       0},
-    //obstáculo a direit
-        {0,      0,       0,       0,       0,     0,       0,       100},
-        {0,      0,       0,       0,       0,     0,       0,       400},
-        {0,      0,       0,       0,       0,     0,    1000,       300},
-        {0,      0,       0,       0,       0,     0,       0,       450},
-    //obstáculo a direita (diagonal
-        {0,      0,       0,       0,        0,     800,     700,       0},
-        {0,      0,       0,       0,        0,     600,     800,       0},
-        {0,      0,       0,       0,        0,     650,     710,       0},
-        {0,      0,       0,    1100,     1050,     800,     700,       0},
-    //obstaculo a esquerd
-        {150,    0,       0,      0,       0,       0,       0,       0},
-        {370,    0,       0,      0,       0,       0,       0,       0},
-        {450,   800,      0,      0,       0,       0,       0,       0},
-        {400,    0,       0,      0,       0,       0,       0,       0},
-    //obstaculo a esquerda (diagonal
-        {0,      690,     830,       0,       0,       0,       0,       0},
-        {0,      770,     620,       0,       0,       0,       0,       0},
-        {0,      700,     590,       0,       0,       0,       0,       0},
-        {0,      690,     840,    1090,    1300,       0,       0,       0},
-    //obstaculo muito perto a frent
-        {0,      0,       0,       150,       148,       0,       0,       0},
-        {0,      0,       0,       100,       110,       0,       0,       0},
-        {800,    900,     870,     180,       175,       0,       0,       0},
-        {0,      0,       0,       120,       125,     890,     850,     800},
-    //sem bostaculos proximos   
-    //  {500,    750,     750,     200,       200,     750,     750,     500}, o obstaculo precisa estar abaixo disso para tomar uma ação
-        {600,    800,     800,     300,       300,     800,     800,     800},
-        {1000,   1002,    1004,    1006,      1010,    1001,    1020,    1100},
-        {3002,   3010,    3134,    3020,      3113,    3029,    3789,    3321},
-        {5000,   5000,    5000,    5000,      5000,    5000,    5000,    5000}
-    
-    };
-    float InputValidacaoNormalizado[PadroesValidacao][NodosEntrada];
-    
-    const float ObjetivoValidacao[PadroesValidacao][NodosSaida] = {
-        //Obstáculo apenas á frente
         {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE}, 
         {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
@@ -237,7 +203,15 @@ public:
         {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
         {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
         {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
     //obstáculo a direita (diagonal)
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
         {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
         {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
         {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
@@ -247,17 +221,182 @@ public:
         {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
     //obstaculo a esquerda (diagonal)
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
         {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
     //obstaculo muito perto a frente
-        {OUT_DR_FRENTE, OUT_AR_FRONTAL, OUT_DM_RE}, 
-        {OUT_DR_FRENTE, OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
         {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
         {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
     //sem bostaculos proximos 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}
+    };
+    
+    //Dados de validação
+    const float InputValidacao[PadroesValidacao][NodosEntrada] = {
+    //Obstáculo apenas á frente (perto) (<=1000)
+        {0,      0,       0,     900,     800,      0,       0,       0},
+        {0,      0,       0,     750,       0,      0,       0,       0},
+        {0,      0,       0,       0,     950,      0,       0,       0},
+        {0,      0,       0,     600,     800,      0,       0,       0},
+    //Obstáculo apenas á frente (medio) +250 25%
+        {0,      0,       0,    1150,    1050,      0,       0,       0},
+        {0,      0,       0,    1000,       0,      0,       0,       0},
+        {0,      0,       0,       0,    1200,      0,       0,       0},
+        {0,      0,       0,     850,    1050,      0,       0,       0},
+
+    //obstáculo a direita (perto) (<= 500)
+        {0,      0,       0,       0,       0,     0,       0,       100},
+        {0,      0,       0,       0,       0,     0,       0,       400},
+        {0,      0,       0,       0,       0,     0,    1000,       300},
+        {0,      0,       0,       0,       0,     0,       0,       450},
+    //obstáculo a direita (medio) +125 25%
+        {0,      0,       0,       0,       0,     0,       0,       225},
+        {0,      0,       0,       0,       0,     0,       0,       525},
+        {0,      0,       0,       0,       0,     0,    1225,       425},
+        {0,      0,       0,       0,       0,     0,       0,       575},
+
+    //obstáculo a direita (diagonal) (<=750)
+        {0,      0,       0,       0,        0,     800,     700,       0},
+        {0,      0,       0,       0,        0,     600,     800,       0},
+        {0,      0,       0,       0,        0,     650,     710,       0},
+        {0,      0,       0,    1100,     1050,     800,     700,       0},
+    //obstáculo a direita (diagonal) + 187.5 25%
+        {0,      0,       0,       0,        0,     987.5,   887.5,       0},
+        {0,      0,       0,       0,        0,     787.5,   987.5,       0},
+        {0,      0,       0,       0,        0,     837.5,   897.5,       0},
+        {0,      0,       0,  1287.5,   1237.5,     987.5,   887.5,       0},
+
+
+    //obstaculo a esquerda (perto) (perto) (<= 500)
+        {150,    0,       0,      0,       0,       0,       0,       0},
+        {370,    0,       0,      0,       0,       0,       0,       0},
+        {450,   800,      0,      0,       0,       0,       0,       0},
+        {400,    0,       0,      0,       0,       0,       0,       0},
+    //obstaculo a esquerda (medio) +125 25%
+        {275,    0,       0,      0,       0,       0,       0,       0},
+        {575,    0,       0,      0,       0,       0,       0,       0},
+        {625,   925,      0,      0,       0,       0,       0,       0},
+        {525,    0,       0,      0,       0,       0,       0,       0},
+
+
+    //obstaculo a esquerda (diagonal) (perto) (<=750)
+        {0,      690,     830,       0,       0,       0,       0,       0},
+        {0,      770,     620,       0,       0,       0,       0,       0},
+        {0,      700,     590,       0,       0,       0,       0,       0},
+        {0,      690,     840,    1090,    1300,       0,       0,       0},
+    //obstaculo a esquerda (diagonal) (medio) + 187.5 25%
+        {0,    877.5,   1017.5,      0,       0,       0,       0,       0},
+        {0,    957.5,    807.5,      0,       0,       0,       0,       0},
+        {0,    887.5,    777.5,      0,       0,       0,       0,       0},
+        {0,    877.5,    727.5, 1277.5,  1487.5,       0,       0,       0},
+ 
+    //obstaculo muito perto a frente (peto) (<=200)
+        {0,      0,       0,       150,       148,       0,       0,       0},
+        {0,      0,       0,       100,       110,       0,       0,       0},
+        {800,    900,     870,     180,       175,       0,       0,       0},
+        {0,      0,       0,       120,       125,     890,     850,     800},
+    //obstaculo muito perto a frente (medio) +50 25%
+        {0,      0,       0,       200,       198,       0,       0,       0},
+        {0,      0,       0,       150,       160,       0,       0,       0},
+        {850,    950,     920,     230,       225,       0,       0,       0},
+        {0,      0,       0,       170,       175,     940,     900,     850},
+
+    //sem bostaculos proximos (200+ 500+ 750+)  
+    //  {500,    750,     750,     200,       200,     750,     750,     500}, o obstaculo precisa estar abaixo disso para tomar uma ação
+        {600,    800,     800,     300,       300,     800,     800,     800},
+        {1000,   1002,    1004,    1006,      1010,    1001,    1020,    1100},
+        {2000,   1802,    1904,    2306,      1912,    2221,    2329,    1999},
+        {3002,   3010,    3134,    3020,      3113,    3029,    3789,    3321},
+        {4003,   4022,    4204,    4506,      4811,    4201,    3990,    3970},
+        {800,    1000,    1000,     500,       500,    1000,    1000,    1000},
+        {1003,   2022,    2204,    1306,      1411,    2301,    2290,    1270},
+        {5000,   5000,    5000,    5000,      5000,    5000,    5000,    5000},
+    };
+    float InputValidacaoNormalizado[PadroesValidacao][NodosEntrada];
+    
+    const float ObjetivoValidacao[PadroesValidacao][NodosSaida] = {
+    //Obstáculo apenas á frente
+        {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_FRONTAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA,  OUT_AR_FRONTAL, OUT_DM_FRENTE},
+    //obstáculo a direita
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+    //obstáculo a direita (diagonal)
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_ESQUERDA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+    //obstaculo a esquerda
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE}, 
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_LATERAL, OUT_DM_FRENTE},
+    //obstaculo a esquerda (diagonal)
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE}, 
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+        {OUT_DR_DIREITA, OUT_AR_DIAGONAL, OUT_DM_FRENTE},
+    //obstaculo muito perto a frente
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE}, 
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+        {OUT_DR_FRENTE,  OUT_AR_FRONTAL, OUT_DM_RE},
+    //sem bostaculos proximos 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
+        {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
         {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE}, 
         {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
         {OUT_DR_FRENTE,  OUT_AR_SEM_ROTACAO, OUT_DM_FRENTE},
