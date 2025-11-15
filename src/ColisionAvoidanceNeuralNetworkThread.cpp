@@ -15,7 +15,7 @@ void* ColisionAvoidanceNeuralNetworkThread::runThread(void*)
         myMutex.lock();
         robo->getAllSonar(sonar);
         tratamentoRna();
-        //ArUtil::sleep(1000);
+        ArUtil::sleep(500);
         myMutex.unlock();
     }
 
@@ -31,8 +31,8 @@ void ColisionAvoidanceNeuralNetworkThread::unlockMutex() { myMutex.unlock(); }
 
 void ColisionAvoidanceNeuralNetworkThread::tratamentoRna()
 {
-    if( robo->robot.isMoveDone())
-    //if(robo->robot.isHeadingDone())
+    //if( robo->robot.isMoveDone())
+    if(robo->robot.isHeadingDone() && robo->robot.isMoveDone())
     {
         ExpectedMovement movement =  neuralNetwork->definirAcao(sonar[0], sonar[1], sonar[2], sonar[3], sonar[4], sonar[5], sonar[6], sonar[7]);
         printf("\nDirecaoRotacaoProcessada %f DirecaoMovimento %f AnguloRotacao %f", movement.DirecaoRotacaoProcessada, movement.DirecaoMovimento, movement.AnguloRotacao);
